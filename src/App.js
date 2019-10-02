@@ -7,7 +7,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [
+        { title: "title", description: "descr", body: "body", id: "giberish" }
+      ]
     };
     this.addPost = this.addPost.bind(this);
   }
@@ -18,11 +20,21 @@ class App extends React.Component {
     }));
   }
 
+  editPost(id, post){
+    const updatedPosts = this.state.posts.map(p => {
+      if(p.id === id){
+        return {...post, description: post.description }
+      }
+      return post 
+    })
+    this.setState({ posts: updatedPosts})
+  }
+
   render () {
     return (
   <div>
     <NavBar />
-    <Routes addPost={this.addPost} />
+    <Routes editPost={this.editPost} addPost={this.addPost} posts={this.state.posts} />
   </div>
     )
   }

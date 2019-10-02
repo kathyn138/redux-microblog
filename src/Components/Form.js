@@ -1,12 +1,14 @@
 import React from 'react';
+import uuid from 'uuid/v4'
 
-class NewPostForm extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '', 
       description: '', 
-      body: ''
+      body: '',
+      id: uuid()
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,7 +17,7 @@ class NewPostForm extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.addPost(this.state);
+    this.props.formMethod(this.state);
     this.props.history.push('/');
   }
 
@@ -57,4 +59,4 @@ class NewPostForm extends React.Component {
   }
 }
 
-export default NewPostForm;
+export default Form;
