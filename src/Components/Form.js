@@ -4,15 +4,26 @@ import uuid from 'uuid/v4'
 class Form extends React.Component {
   constructor(props) {
     super(props);
+
+    this.props.isEditing ? 
     this.state = {
+      title: this.props.currentBlog.title, 
+      description: this.props.currentBlog.description, 
+      body: this.props.currentBlog.body,
+      id: this.props.currentBlog.id
+    } : 
+      this.state = {
       title: '', 
       description: '', 
       body: '',
       id: uuid()
     };
+
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   handleSubmit(evt) {
@@ -30,7 +41,16 @@ class Form extends React.Component {
     this.props.history.push('/');
   }
 
+  handleEdit(evt){
+     evt.preventDefault();
+     this.props.formMethod(this.state.id, this.state);
+     this.props.history.push("/");
+  }
+
   render() {
+    let submit;
+    this.props.isEditing ? submit = this.handleEdit : submit = this.handleSubmit;
+    
     return (
       <React.Fragment>
         <div className="col-8" style={{ margin: "0 auto" }}>
@@ -49,7 +69,7 @@ class Form extends React.Component {
               <label htmlFor="body">Body</label>
               <textarea className="form-control" id="body" rows="7" name="body" value={this.state.body} onChange={this.handleChange}></textarea>
             </div>
-            <button type="button" className="btn btn-primary" style={{ marginRight: "10px" }} onClick={this.handleSubmit}>Save</button>
+            <button type="button" className="btn btn-primary" style={{ marginRight: "10px" }} onClick={submit}>Save</button>
             <button type="button" className="btn btn-secondary" onClick={this.handleCancel}>Cancel</button>
           </form>
         </div>

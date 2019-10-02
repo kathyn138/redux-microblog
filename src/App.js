@@ -9,9 +9,11 @@ class App extends React.Component {
     this.state = {
       posts: [
         { title: "title", description: "descr", body: "body", id: "giberish" }
-      ]
+      ],
+      isEditing: false
     };
     this.addPost = this.addPost.bind(this);
+    this.editPost = this.editPost.bind(this);
   }
 
   addPost(post) {
@@ -20,21 +22,22 @@ class App extends React.Component {
     }));
   }
 
-  editPost(id, post){
-    const updatedPosts = this.state.posts.map(p => {
+  editPost(id, newPost){
+    const updatedPost = this.state.posts.map(p => {
       if(p.id === id){
-        return {...post, description: post.description }
+        return {...newPost}
+      } else {
+         return p;
       }
-      return post 
     })
-    this.setState({ posts: updatedPosts})
+    this.setState({ posts: updatedPost})
   }
 
   render () {
     return (
   <div>
     <NavBar />
-    <Routes editPost={this.editPost} addPost={this.addPost} posts={this.state.posts} />
+    <Routes editPost={this.editPost} isEditing={this.isEditing} addPost={this.addPost} posts={this.state.posts} />
   </div>
     )
   }
