@@ -18,7 +18,11 @@ class Routes extends React.Component {
         <Route exact path="/new" render={(rtProps) => <Form formMethod={this.props.addPost} {...rtProps} />} />
         <Route exact path="/:postid" render={(rtProps) => <PostDetail isEditing={this.props.isEditing}
           formMethod={this.props.editPost}
-          posts={this.props.posts} removePost={this.props.removePost} {...rtProps} />} />
+          posts={this.props.posts}
+          removePost={this.props.removePost}
+          addComment={this.props.addComment}
+          removeComment={this.props.removeComment}
+          {...rtProps} />} />
         <Route exact path="/" render={() => <HomePageList posts={this.props.posts} />} />
 
       </Switch>

@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./Form";
 import CommentForm from './CommentForm';
+import CommentList from './CommentList';
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -49,7 +50,8 @@ class PostDetail extends React.Component {
             <p>{currentBlog[0].body}</p>
             <hr className='my-4' />
             <h1  className='display-6'>Comments</h1>
-            <CommentForm />
+            <CommentList currentPost={currentBlog} removeComment={this.props.removeComment}/>
+            <CommentForm addComment={this.props.addComment} postId={blogId} />
           </div>
         </div>
         <div style={{ visibility }} className="form-div">

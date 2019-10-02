@@ -8,13 +8,16 @@ class App extends React.Component {
     super(props);
     this.state = {
       posts: [
-        { title: "Title", description: "descr", body: "body", id: "giberish", comments: ['hello', 'whiskey'] }
+        { title: "Title", description: "descr", body: "body", id: "giberish", 
+        comments: [{id: 1, text: 'hello'}, {id: 2, text: 'whiskey'}] }
       ],
       isEditing: false
     };
     this.addPost = this.addPost.bind(this);
     this.editPost = this.editPost.bind(this);
     this.removePost = this.removePost.bind(this);
+    this.addComment = this.addComment.bind(this);
+    this.removeComment = this.removeComment.bind(this);
   }
 
   addPost(post) {
@@ -45,21 +48,50 @@ class App extends React.Component {
 
   addComment(comment, postId) {
     const currentPost = this.state.posts.map(p => {
-      if(p.id === postId){
+      if (p.id === postId) {
+        p.comments.push(comment)
         return {...p}
-      } 
+      } else {
+        return p;
+      }
+    })
+  
+    this.setState({
+      posts: currentPost
+    });
+  }
+
+  removeComment(commentId, postId) {
+    const currentPost = this.state.posts.map(p => {
+      if (p.id === postId) {
+        let keptComments = p.comments.filter(c => {
+          if (c.id !== commentId) {
+            return c
+          }
+        })
+        return {...p, comments: keptComments}
+      } else {
+        return p;
+      }
     })
 
-    this.setState(st => ({
-      posts: [...st.posts, currentPost
-    }))
+    this.setState({
+      posts: currentPost
+    });
+  
   }
 
   render () {
     return (
   <div>
     <NavBar />
-    <Routes editPost={this.editPost} isEditing={this.isEditing} addPost={this.addPost} removePost={this.removePost} posts={this.state.posts} />
+    <Routes editPost={this.editPost} 
+    isEditing={this.isEditing} 
+    addPost={this.addPost} 
+    removePost={this.removePost} 
+    posts={this.state.posts}
+    addComment={this.addComment} 
+    removeComment={this.removeComment} />
   </div>
     )
   }
