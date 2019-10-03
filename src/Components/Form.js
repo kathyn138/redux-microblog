@@ -5,14 +5,12 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
 
-    this.props.isEditing ? 
-    this.state = {
+    this.state = this.props.isEditing ? {
       title: this.props.currentBlog.title, 
       description: this.props.currentBlog.description, 
       body: this.props.currentBlog.body,
       id: this.props.currentBlog.id
-    } : 
-      this.state = {
+    } : {
       title: '', 
       description: '', 
       body: '',
@@ -28,7 +26,7 @@ class Form extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.formMethod(this.state);
+    this.props.addPost(this.state);
     this.props.history.push('/');
   }
 
@@ -43,7 +41,8 @@ class Form extends React.Component {
 
   handleEdit(evt){
      evt.preventDefault();
-     this.props.formMethod(this.state.id, this.state);
+     // clean up parameters passed to edit post.
+     this.props.editPost(this.state.id, this.state);
      this.props.history.push("/");
   }
 
@@ -71,7 +70,6 @@ class Form extends React.Component {
             <button type="button" className="btn btn-secondary" onClick={this.handleCancel}>Cancel</button>
           </form>
         </div>
-
       </React.Fragment>
     )
   }

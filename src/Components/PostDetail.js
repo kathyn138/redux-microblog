@@ -26,9 +26,7 @@ class PostDetail extends React.Component {
 
   render() {
     let blogId = this.props.match.params.postid;
-    console.log(this.props.posts)
-
-    let currentBlog = this.props.posts[blogId]
+    let currentBlog = this.props.post;
 
     let visibility = this.state.visibility ? "hidden" : "visible";
 
@@ -55,7 +53,7 @@ class PostDetail extends React.Component {
         </div>
         <div style={{ visibility }} className="form-div">
           <Form
-            formMethod={this.props.formMethod}
+            editPost={this.props.editPost}
             isEditing={true}
             currentBlog={currentBlog}
             history={this.props.history}

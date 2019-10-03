@@ -11,11 +11,10 @@ class CommentList extends React.Component {
     const { currentPost } = this.props;
     
     let commentArray = [];
+
     for (let commentId in currentPost.comments) {
-      // console.log(commentId)
-      console.log(currentPost)
       commentArray.push(
-        <Comment
+        <Comment key={commentId}
           postId={currentPost.id}
           comment={currentPost.comments[commentId]}
           removeComment={this.props.removeComment}

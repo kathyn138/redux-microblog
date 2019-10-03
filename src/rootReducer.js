@@ -30,38 +30,62 @@ function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADDPOST:
       let postCopy = { ...state.posts };
-
-      postCopy[action.payload.post.id] = action.payload.post;
-      return { posts: postCopy };
+      postCopy[action.payload.id] = action.payload;
+      postCopy[action.payload.id]["comments"] = {};
+      return { 
+        ...state,
+        posts: postCopy
+      };
 
     case EDITPOST:
       let postToEdit = { ...state.posts };
 
-      postCopy[action.payload.id] = action.payload.newPost;
-      return { posts: postToEdit };
+      // ...postToEdit[action.payload.id] is needed
+      // it prevents us from overwriting comments
+      
+      postToEdit[action.payload.id] = {
+        ...postToEdit[action.payload.id],
+        ...action.payload.newPost
+      };
+      return { 
+        ...state,
+        posts: postToEdit
+      };
 
     case REMOVEPOST:
       let postToRemove = { ...state.posts };
-      if (!postToRemove[action.payload.id]) return postToRemove;
+      if (!postToRemove[action.payload]) return postToRemove;
 
-      delete (postToRemove[action.payload.id])
-      return {posts: postToRemove}
+      delete (postToRemove[action.payload])
+      return { 
+        ...state,
+        posts: postToRemove
+      };
 
     case ADDCOMMENT: 
       let commentToAdd = { ...state.posts };
-      commentToAdd[action.payload.postId]["comments"][action.payload.comment.id] = action.payload.comment;
+      if (!commentToAdd[action.payload.postId]) { return state; }
+      commentToAdd[action.payload.postId]["comments"][action.payload.comment.id] = {
+        ...action.payload.comment
+      };
 
-      return {posts: commentToAdd}
+      return {
+        ...state,
+        posts: commentToAdd
+      };
 
     case REMOVECOMMENT:
       let commentToRemove = { ...state.posts };
       if(!commentToRemove[action.payload.postId]["comments"][action.payload.commentId]){
-        return commentToRemove;
+        return state;
       } else {
         delete (commentToRemove[action.payload.postId]["comments"][
           action.payload.commentId]);
       }
-      return {posts: commentToRemove}
+      return {
+        ...state,
+        posts: commentToRemove
+      };
 
     default:
       return state;

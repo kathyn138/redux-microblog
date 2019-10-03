@@ -11,13 +11,11 @@ class HomePageList extends React.Component {
     const { posts } = this.props
     let postArray = []
     for(let postId in posts){
-  
       postArray.push(
         <div className='card w-50' key={postId}>
           <div className='card-body'>
             <h5 className='card-title'>
               <Link to={`/${postId}`}>{posts[postId].title}</Link>
-              
             </h5>
             <p className='card-text'>{posts[postId].description}</p>
           </div>

@@ -4,14 +4,11 @@ import React from 'react';
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
- 
-    }
     this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleRemove(commentId, postId) {
-    this.props.removeComment(commentId, postId)
+    this.props.removeComment(commentId, postId);
   }
 
   render() {
