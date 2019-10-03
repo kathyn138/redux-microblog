@@ -3,26 +3,28 @@ import {
   EDITPOST,
   REMOVEPOST,
   ADDCOMMENT,
-  REMOVECOMMENT
+  REMOVECOMMENT,
+  LOADPOSTS
 } from "./actionTypes";
 
 const INITIAL_STATE = {
-  posts: {
-    giberish: {
-      title: "title of post",
-      description: "description of post",
-      body: "body of post",
-      id: "giberish",
-      comments: {
-        1: {
-          text: "hello"
-        },
-        2: {
-          text: "whiskey"
-        }
-      }
-    }
-  },
+  posts: {}
+  // posts: {
+  //   giberish: {
+  //     title: "title of post",
+  //     description: "description of post",
+  //     body: "body of post",
+  //     id: "giberish",
+  //     comments: {
+  //       1: {
+  //         text: "hello"
+  //       },
+  //       2: {
+  //         text: "whiskey"
+  //       }
+  //     }
+  //   }
+  , titles: [],
   isEditing: false
 };
 
@@ -86,6 +88,9 @@ function rootReducer(state = INITIAL_STATE, action) {
         ...state,
         posts: commentToRemove
       };
+
+    case LOADPOSTS: 
+      return { ...state, posts: action.posts}
 
     default:
       return state;

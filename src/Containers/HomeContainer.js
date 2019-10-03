@@ -1,5 +1,8 @@
 import HomePageList from '../Components/HomePageList';
 import { connect } from 'react-redux';
+import {getPostsFromApi} from '../actions';
+
+
 
 function mapStateToProps(state) {
   return {
@@ -7,4 +10,6 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(HomePageList);
+const matchDispatchToProps = { getPostsFromApi }
+
+export default connect(mapStateToProps, matchDispatchToProps)(HomePageList);

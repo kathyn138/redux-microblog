@@ -7,6 +7,10 @@ class HomePageList extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    this.props.getPostsFromApi()
+  }
+  
   render() {
     const { posts } = this.props
     let postArray = []
