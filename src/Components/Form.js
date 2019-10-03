@@ -54,8 +54,6 @@ class Form extends React.Component {
     return (
       <React.Fragment>
         <div className="col-8" style={{ margin: "0 auto" }}>
-          <h1>New Post</h1>
-
           <form>
             <div className="form-group">
               <label htmlFor="title">Title</label>

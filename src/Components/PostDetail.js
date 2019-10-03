@@ -26,10 +26,9 @@ class PostDetail extends React.Component {
 
   render() {
     let blogId = this.props.match.params.postid;
+    console.log(this.props.posts)
 
-    let currentBlog = this.props.posts.filter(blog => {
-      return blog.id === blogId;
-    });
+    let currentBlog = this.props.posts[blogId]
 
     let visibility = this.state.visibility ? "hidden" : "visible";
 
@@ -44,10 +43,10 @@ class PostDetail extends React.Component {
               <i style={{ color: "red" }} className='fas fa-times' onClick={() => this.handleRemove(blogId)}></i>
             </div>
 
-            <h1 className='display-6'>{currentBlog[0].title}</h1>
-            <p className='lead'>{currentBlog[0].description}</p>
+            <h1 className='display-6'>{currentBlog.title}</h1>
+            <p className='lead'>{currentBlog.description}</p>
             <hr className='my-4' />
-            <p>{currentBlog[0].body}</p>
+            <p>{currentBlog.body}</p>
             <hr className='my-4' />
             <h1  className='display-6'>Comments</h1>
             <CommentList currentPost={currentBlog} removeComment={this.props.removeComment}/>
@@ -58,7 +57,7 @@ class PostDetail extends React.Component {
           <Form
             formMethod={this.props.formMethod}
             isEditing={true}
-            currentBlog={currentBlog[0]}
+            currentBlog={currentBlog}
             history={this.props.history}
           />
         </div>

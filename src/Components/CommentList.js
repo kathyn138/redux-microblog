@@ -1,21 +1,29 @@
-import React from 'react';
-import Comment from './Comment';
+import React from "react";
+import Comment from "./Comment";
 
 class CommentList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
+    this.state = {};
   }
 
   render() {
-    return (
-      <ul style={{listStyleType: "none"}}>
-      {this.props.currentPost[0].comments.map(p =>
-        <Comment postId={this.props.currentPost[0].id} comment={p} removeComment={this.props.removeComment} />)}
-      </ul>
-    )
+    const { currentPost } = this.props;
+    
+    let commentArray = [];
+    for (let commentId in currentPost.comments) {
+      // console.log(commentId)
+      console.log(currentPost)
+      commentArray.push(
+        <Comment
+          postId={currentPost.id}
+          comment={currentPost.comments[commentId]}
+          removeComment={this.props.removeComment}
+        />
+      );
+    }
+
+    return <ul style={{ listStyleType: "none" }}>{commentArray}</ul>;
   }
 }
 
