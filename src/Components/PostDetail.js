@@ -15,8 +15,8 @@ class PostDetail extends React.Component {
   }
 
   componentDidMount(){
-      this.props.getOnePostFromApi(this.props.match.params.id);
-
+      this.setState(...this.state,       this.props.getOnePostFromApi(this.props.match.params.id))
+      console.log(this.state)
   }
 
   handleEdit(evt) {
@@ -30,11 +30,12 @@ class PostDetail extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     let blogId = this.props.match.params.postid;
     let currentBlog = this.props.post;
 
     let visibility = this.state.visibility ? "hidden" : "visible";
-
+    console.log(this.props)
     let blog = (
       <React.Fragment>
         <div className='col-10' style={{ margin: "0 auto" }}>
@@ -58,7 +59,7 @@ class PostDetail extends React.Component {
         </div>
         <div style={{ visibility }} className="form-div">
           <Form
-            editPost={this.props.editPost}
+            updatePostFromApi={this.props.updatePostFromApi}
             isEditing={true}
             currentBlog={currentBlog}
             history={this.props.history}

@@ -5,7 +5,8 @@ import {
   ADDCOMMENT,
   REMOVECOMMENT,
   LOADPOSTS,
-  LOADONEPOST
+  LOADONEPOST,
+  ERROR
 } from "./actionTypes";
 
 const INITIAL_STATE = {
@@ -31,17 +32,32 @@ const INITIAL_STATE = {
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+
+    case ERROR: 
+      console.log("THIS IS THE ERROR", action)
+      return {...state}
+
     case ADDPOST:
+      console.log("action", action.payload)
       let postCopy = { ...state.posts };
       postCopy[action.payload.id] = action.payload;
       postCopy[action.payload.id]["comments"] = {};
+      console.log(state)
       return { 
         ...state,
-        posts: postCopy
+        posts: postCopy,
+        titles: { 
+          title: action.payload.title,
+          id: action.payload.id,
+          description: action.payload.description
+        }
+
       };
+
 
     case EDITPOST:
       let postToEdit = { ...state.posts };
+      
 
       // ...postToEdit[action.payload.id] is needed
       // it prevents us from overwriting comments
@@ -90,7 +106,6 @@ function rootReducer(state = INITIAL_STATE, action) {
         posts: commentToRemove
       };
 
-      /*******************BACKEND****************/
 
     case LOADPOSTS: 
       return { ...state, posts: action.posts}

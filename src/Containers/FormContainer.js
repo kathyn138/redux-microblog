@@ -1,6 +1,6 @@
 import Form from '../Components/Form';
 import { connect } from 'react-redux';
-import { addPost, editPost } from '../actions';
+import { addPost, addPostToApi, updatePostFromApi } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -9,7 +9,9 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addPost
+  addPost,
+  addPostToApi,
+  updatePostFromApi
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

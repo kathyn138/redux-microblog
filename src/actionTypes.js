@@ -5,3 +5,4 @@ export const ADDCOMMENT = "ADDCOMMENT";
 export const REMOVECOMMENT = "REMOVECOMMENT";
 export const LOADPOSTS = "LOADPOSTS";
 export const LOADONEPOST = "LOADONEPOST";
+export const ERROR = "ERROR";

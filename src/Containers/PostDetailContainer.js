@@ -5,7 +5,8 @@ import {
   removePost,
   addComment,
   removeComment,
-  getOnePostFromApi
+  getOnePostFromApi,
+  updatePostFromApi
 } from "../actions";
 
 function mapStateToProps(state, ownProps) {
@@ -17,7 +18,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-    editPost, removePost, addComment, removeComment, getOnePostFromApi
+    editPost, removePost, addComment, removeComment, getOnePostFromApi, updatePostFromApi
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

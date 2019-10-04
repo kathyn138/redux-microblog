@@ -102,6 +102,7 @@ router.post("/:id/vote/:direction", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
   try {
     const {title, body, description} = req.body;
+    console.log("this is the req body", req.body)
     const result = await db.query(
       `INSERT INTO posts (title, description, body) 
         VALUES ($1, $2, $3) 
