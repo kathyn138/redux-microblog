@@ -158,6 +158,7 @@ export function removeComment(commentId, postId) {
 }
 
 export function deleteCommentFromApi(commentId, postId) {
+    console.log("api", commentId, postId)
   return async function thunk(dispatch) {
     try {
       await axios.delete(`${BASE_URL}/api/posts/${postId}/comments/${commentId}`);

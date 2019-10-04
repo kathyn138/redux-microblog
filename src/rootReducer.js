@@ -98,18 +98,28 @@ function rootReducer(state = INITIAL_STATE, action) {
       };
 
     case REMOVECOMMENT:
+      console.log("rootreducer", action.payload.commentId, action.payload.postId)
       // let posts = { ...state.posts };
 
       // if (!state.post || +postId !== state.post.id) return state;
 
-      let currentPost = {...state.post };
+      // let currentPost = {...state.post };
 
-      let commentsToKeep = currentPost.comments.filter((c) => c.id !== action.payload.commentId)
+      // let commentsToKeep = currentPost.comments.filter((c) => +c.id !== +action.payload.commentId)
       
-      currentPost.comments = [
-        ...currentPost.comments, 
-        commentsToKeep
-      ]
+      // currentPost.comments = [
+      //   ...currentPost.comments, 
+      //   commentsToKeep
+      // ]
+
+      return {
+        ...state,
+        post: {
+          ...state.post, comments: state.post.comments.filter(
+            comment => comment.id !== action.payload.commentId
+          )
+        }
+      }
 
       // if(![posts][action.payload.postId]["comments"][action.payload.commentId]){
       //   return state;
@@ -117,10 +127,10 @@ function rootReducer(state = INITIAL_STATE, action) {
       //   delete ([posts][action.payload.postId]["comments"][
       //     action.payload.commentId]);
       // }
-      return {
-        ...state,
-        currentPost
-      };
+      // return {
+      //   ...state,
+      //   currentPost
+      // };
 
 
     case LOADPOSTS: 
