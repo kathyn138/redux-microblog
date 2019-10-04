@@ -4,7 +4,8 @@ import {
   REMOVEPOST,
   ADDCOMMENT,
   REMOVECOMMENT,
-  LOADPOSTS
+  LOADPOSTS,
+  LOADONEPOST
 } from "./actionTypes";
 
 const INITIAL_STATE = {
@@ -89,8 +90,18 @@ function rootReducer(state = INITIAL_STATE, action) {
         posts: commentToRemove
       };
 
+      /*******************BACKEND****************/
+
     case LOADPOSTS: 
       return { ...state, posts: action.posts}
+
+    case LOADONEPOST: 
+      return { ...state, posts: action.id}
+
+
+
+
+
 
     default:
       return state;

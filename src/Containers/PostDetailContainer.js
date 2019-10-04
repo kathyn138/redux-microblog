@@ -1,6 +1,12 @@
 import PostDetail from '../Components/PostDetail';
 import { connect } from 'react-redux';
-import { editPost, removePost, addComment, removeComment } from '../actions';
+import {
+  editPost,
+  removePost,
+  addComment,
+  removeComment,
+  getOnePostFromApi
+} from "../actions";
 
 function mapStateToProps(state, ownProps) {
   let blogId = ownProps.match.params.postid;
@@ -11,7 +17,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
-    editPost, removePost, addComment, removeComment
+    editPost, removePost, addComment, removeComment, getOnePostFromApi
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

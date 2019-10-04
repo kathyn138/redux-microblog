@@ -14,6 +14,11 @@ class PostDetail extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
+  componentDidMount(){
+      this.props.getOnePostFromApi(this.props.match.params.id);
+
+  }
+
   handleEdit(evt) {
     evt.preventDefault();
     this.setState({ visibility: !this.state.visibility })

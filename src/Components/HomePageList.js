@@ -9,6 +9,7 @@ class HomePageList extends React.Component {
 
   componentDidMount() {
     this.props.getPostsFromApi()
+    
   }
   
   render() {
