@@ -6,7 +6,8 @@ import {
   REMOVECOMMENT,
   LOADPOSTS,
   LOADONEPOST,
-  ERROR
+  ERROR, 
+  LOADCOMMENTS
 } from "./actionTypes";
 
 const INITIAL_STATE = {
@@ -35,6 +36,7 @@ function rootReducer(state = INITIAL_STATE, action) {
 
     case ERROR: 
       console.log("THIS IS THE ERROR", action)
+      console.log(state)
       return {...state}
 
     case ADDPOST:
@@ -42,7 +44,6 @@ function rootReducer(state = INITIAL_STATE, action) {
       let postCopy = { ...state.posts };
       postCopy[action.payload.id] = action.payload;
       postCopy[action.payload.id]["comments"] = {};
-      console.log(state)
       return { 
         ...state,
         posts: postCopy,
@@ -81,42 +82,64 @@ function rootReducer(state = INITIAL_STATE, action) {
         posts: postToRemove
       };
 
-    case ADDCOMMENT: 
-      let commentToAdd = { ...state.posts };
-      if (!commentToAdd[action.payload.postId]) { return state; }
-      commentToAdd[action.payload.postId]["comments"][action.payload.comment.id] = {
-        ...action.payload.comment
-      };
+    case ADDCOMMENT:
+      const { postId } = action.payload;
+      if (!state.post || +postId !== state.post.id) return state;
 
+      let post = { ...state.post };
+      
+      post.comments = [
+        ...post.comments,
+        { ...action.payload.comment}
+      ];
       return {
         ...state,
-        posts: commentToAdd
+        post
       };
 
     case REMOVECOMMENT:
-      let commentToRemove = { ...state.posts };
-      if(!commentToRemove[action.payload.postId]["comments"][action.payload.commentId]){
-        return state;
-      } else {
-        delete (commentToRemove[action.payload.postId]["comments"][
-          action.payload.commentId]);
-      }
+      // let posts = { ...state.posts };
+
+      // if (!state.post || +postId !== state.post.id) return state;
+
+      let currentPost = {...state.post };
+
+      let commentsToKeep = currentPost.comments.filter((c) => c.id !== action.payload.commentId)
+      
+      currentPost.comments = [
+        ...currentPost.comments, 
+        commentsToKeep
+      ]
+
+      // if(![posts][action.payload.postId]["comments"][action.payload.commentId]){
+      //   return state;
+      // } else {
+      //   delete ([posts][action.payload.postId]["comments"][
+      //     action.payload.commentId]);
+      // }
       return {
         ...state,
-        posts: commentToRemove
+        currentPost
       };
 
 
     case LOADPOSTS: 
       return { ...state, posts: action.posts}
 
-    case LOADONEPOST: 
-      return { ...state, posts: action.id}
+    case LOADONEPOST:
+      return { ...state, post: {...action.post}}
 
-
-
-
-
+    case LOADCOMMENTS:
+      let postsArr = { ...state.posts };
+      if (!postsArr[action.payload.postId]) { return state; }
+      console.log('loadcomments', action.payload)
+      postsArr[action.payload.postId].comments = [
+        ...action.comments
+      ];
+      return {
+        ...state,
+        posts: postsArr
+      };
 
     default:
       return state;

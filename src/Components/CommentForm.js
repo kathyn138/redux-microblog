@@ -1,21 +1,19 @@
 import React from 'react';
-import uuid from 'uuid/v4';
 
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '', 
-      id: uuid()
+      text: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
-    this.props.addComment(this.state, this.props.postId);
-    this.setState({text: '', id: uuid()});
+    await this.props.addComment(this.props.postId, this.state);
+    this.setState({text: ''});
   }
 
   handleChange(evt) {

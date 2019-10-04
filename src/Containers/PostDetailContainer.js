@@ -6,19 +6,23 @@ import {
   addComment,
   removeComment,
   getOnePostFromApi,
-  updatePostFromApi
+  updatePostFromApi, 
+  deletePostFromApi, 
+  getCommentsFromApi, 
+  addCommentToApi, 
+  deleteCommentFromApi
 } from "../actions";
 
 function mapStateToProps(state, ownProps) {
-  let blogId = ownProps.match.params.postid;
-  let currentBlog = state.posts[blogId];
   return {
-    post: currentBlog
+    post: state.post
   }
 }
 
 const mapDispatchToProps = {
-    editPost, removePost, addComment, removeComment, getOnePostFromApi, updatePostFromApi
+  editPost, removePost, addComment, removeComment, getOnePostFromApi, updatePostFromApi, deletePostFromApi,  getCommentsFromApi, 
+  addCommentToApi, 
+  deleteCommentFromApi
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

@@ -14,10 +14,8 @@ class HomePageList extends React.Component {
   
   render() {
     const { posts } = this.props
-    console.log(this.props.posts)
     let postArray = []
     for(let postId in posts){
-      console.log("this is postID", postId)
       postArray.push(
         <div className='card w-50' key={postId}>
           <div className='card-body'>

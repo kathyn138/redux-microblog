@@ -6,18 +6,16 @@ class Form extends React.Component {
     super(props);
 
     this.state = this.props.isEditing ? {
-      title: this.props.currentBlog.title, 
-      description: this.props.currentBlog.description, 
-      body: this.props.currentBlog.body,
-      id: this.props.currentBlog.id
+      title: this.props.currentPost.title, 
+      description: this.props.currentPost.description, 
+      body: this.props.currentPost.body,
+      id: this.props.currentPost.id
     } : {
       title: '', 
       description: '', 
       body: '',
       id: uuid()
     };
-
-    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -40,19 +38,16 @@ class Form extends React.Component {
     this.props.history.push('/');
   }
 
-  handleEdit(evt){
+  async handleEdit(evt){
      evt.preventDefault();
      // clean up parameters passed to edit post.
-     console.log("id", this.state.id)
-     console.log("this is state", this.state)
-     this.props.updatePostFromApi(this.state.id, this.state);
+     await this.props.updatePostFromApi(this.state.id, this.state);
      this.props.history.push("/");
   }
 
   render() {
     let submit;
     this.props.isEditing ? submit = this.handleEdit : submit = this.handleSubmit;
-    
     return (
       <React.Fragment>
         <div className='col-8' style={{ margin: "0 auto" }}>

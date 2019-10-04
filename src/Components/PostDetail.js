@@ -15,8 +15,8 @@ class PostDetail extends React.Component {
   }
 
   componentDidMount(){
-      this.setState(...this.state,       this.props.getOnePostFromApi(this.props.match.params.id))
-      console.log(this.state)
+    this.props.getOnePostFromApi(this.props.match.params.postid);
+    this.props.getCommentsFromApi(this.props.match.params.postid);
   }
 
   handleEdit(evt) {
@@ -24,19 +24,23 @@ class PostDetail extends React.Component {
     this.setState({ visibility: !this.state.visibility })
   }
 
-  handleRemove(id) {
-    this.props.removePost(id);
+  async handleRemove(id) {
+    await this.props.deletePostFromApi(id);
     this.props.history.push('/');
   }
 
+  renderLoading() {
+    return <p>Loading...</p>;
+  }
+
   render() {
-    console.log(this.state)
     let blogId = this.props.match.params.postid;
-    let currentBlog = this.props.post;
+    let currentPost = this.props.post;
+    if (!currentPost) { return this.renderLoading(); }
 
     let visibility = this.state.visibility ? "hidden" : "visible";
-    console.log(this.props)
-    let blog = (
+    
+    return (
       <React.Fragment>
         <div className='col-10' style={{ margin: "0 auto" }}>
           <div className='jumbotron'>
@@ -47,28 +51,25 @@ class PostDetail extends React.Component {
               <i style={{ color: "red" }} className='fas fa-times' onClick={() => this.handleRemove(blogId)}></i>
             </div>
 
-            <h1 className='display-6'>{currentBlog.title}</h1>
-            <p className='lead'>{currentBlog.description}</p>
-            <hr className='my-4' />
-            <p>{currentBlog.body}</p>
+            <h1 className='display-6'>{currentPost.title}</h1>
+            <p className='lead'>{currentPost.description}</p>
+            <p>{currentPost.body}</p>
             <hr className='my-4' />
             <h1  className='display-6'>Comments</h1>
-            <CommentList currentPost={currentBlog} removeComment={this.props.removeComment}/>
-            <CommentForm addComment={this.props.addComment} postId={blogId} />
+            <CommentList currentPost={currentPost} deleteCommentFromApi={this.props.deleteCommentFromApi}/>
+            <CommentForm addComment={this.props.addCommentToApi} postId={blogId} />
           </div>
         </div>
         <div style={{ visibility }} className="form-div">
           <Form
             updatePostFromApi={this.props.updatePostFromApi}
             isEditing={true}
-            currentBlog={currentBlog}
+            currentPost={currentPost}
             history={this.props.history}
           />
         </div>
       </React.Fragment>
     );
-
-    return blog;
   }
 }
 
