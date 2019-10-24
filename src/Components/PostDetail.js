@@ -14,7 +14,7 @@ class PostDetail extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.getOnePostFromApi(this.props.match.params.postid);
     this.props.getCommentsFromApi(this.props.match.params.postid);
   }
@@ -39,7 +39,7 @@ class PostDetail extends React.Component {
     if (!currentPost) { return this.renderLoading(); }
 
     let visibility = this.state.visibility ? "hidden" : "visible";
-    
+
     return (
       <React.Fragment>
         <div className='col-10' style={{ margin: "0 auto" }}>
@@ -51,12 +51,18 @@ class PostDetail extends React.Component {
               <i style={{ color: "red" }} className='fas fa-times' onClick={() => this.handleRemove(blogId)}></i>
             </div>
 
+            <div className='d-flex justify-content-end' style={{marginTop: '10px'}}>
+              {currentPost.votes} votes:
+              <i className='fas fa-thumbs-up' style={{ color: 'green', marginLeft: '10px' }}></i>
+              <i className='fas fa-thumbs-down' style={{ color: 'red', marginLeft: '10px' }}></i>
+            </div>
+
             <h1 className='display-6'>{currentPost.title}</h1>
             <p className='lead'>{currentPost.description}</p>
             <p>{currentPost.body}</p>
             <hr className='my-4' />
-            <h1  className='display-6'>Comments</h1>
-            <CommentList currentPost={currentPost} deleteCommentFromApi={this.props.deleteCommentFromApi}/>
+            <h1 className='display-6'>Comments</h1>
+            <CommentList currentPost={currentPost} deleteCommentFromApi={this.props.deleteCommentFromApi} />
             <CommentForm addComment={this.props.addCommentToApi} postId={blogId} />
           </div>
         </div>
