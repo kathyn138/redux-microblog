@@ -9,13 +9,13 @@ class HomePageList extends React.Component {
 
   componentDidMount() {
     this.props.getPostsFromApi()
-    
+
   }
-  
+
   render() {
     const { posts } = this.props
     let postArray = []
-    for(let postId in posts){
+    for (let postId in posts) {
       postArray.push(
         <div className='card w-50' key={postId}>
           <div className='card-body'>
@@ -24,10 +24,15 @@ class HomePageList extends React.Component {
             </h5>
             <p className='card-text'>{posts[postId].description}</p>
           </div>
+          <div className="card-footer">
+            {posts[postId].votes} votes
+            <i class="fas fa-thumbs-up" style={{color: 'green', marginLeft: '10px'}}></i>
+            <i class="fas fa-thumbs-down" style={{color: 'red', marginLeft: '10px'}}></i>
+          </div>
         </div>
       );
     };
-    
+
 
     return (
       <React.Fragment>
