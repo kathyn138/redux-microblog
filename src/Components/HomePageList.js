@@ -26,8 +26,8 @@ class HomePageList extends React.Component {
           </div>
           <div className="card-footer">
             {posts[postId].votes} votes
-            <i class="fas fa-thumbs-up" style={{color: 'green', marginLeft: '10px'}}></i>
-            <i class="fas fa-thumbs-down" style={{color: 'red', marginLeft: '10px'}}></i>
+            <i className='fas fa-thumbs-up' style={{color: 'green', marginLeft: '10px'}}></i>
+            <i className='fas fa-thumbs-down' style={{color: 'red', marginLeft: '10px'}}></i>
           </div>
         </div>
       );
