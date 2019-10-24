@@ -1,6 +1,6 @@
 import HomePageList from '../Components/HomePageList';
 import { connect } from 'react-redux';
-import {getPostsFromApi} from '../actions';
+import {getPostsFromApi, sendVoteToAPI} from '../actions';
 
 
 
@@ -10,6 +10,6 @@ function mapStateToProps(state) {
   }
 }
 
-const matchDispatchToProps = { getPostsFromApi }
+const matchDispatchToProps = { getPostsFromApi, sendVoteToAPI }
 
 export default connect(mapStateToProps, matchDispatchToProps)(HomePageList);

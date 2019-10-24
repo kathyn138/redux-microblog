@@ -12,6 +12,7 @@ class PostDetail extends React.Component {
 
     this.handleEdit = this.handleEdit.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleUpVote = this.handleUpVote.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +28,10 @@ class PostDetail extends React.Component {
   async handleRemove(id) {
     await this.props.deletePostFromApi(id);
     this.props.history.push('/');
+  }
+
+  handleUpVote(id, up) {
+    this.props.sendVoteToAPI(id, up);
   }
 
   renderLoading() {
@@ -51,10 +56,16 @@ class PostDetail extends React.Component {
               <i style={{ color: "red" }} className='fas fa-times' onClick={() => this.handleRemove(blogId)}></i>
             </div>
 
-            <div className='d-flex justify-content-end' style={{marginTop: '10px'}}>
+            <div className='d-flex justify-content-end' style={{ marginTop: '10px' }}>
               {currentPost.votes} votes:
-              <i className='fas fa-thumbs-up' style={{ color: 'green', marginLeft: '10px' }}></i>
-              <i className='fas fa-thumbs-down' style={{ color: 'red', marginLeft: '10px' }}></i>
+              <i className='fas fa-thumbs-up'
+                style={{ color: 'green', marginLeft: '10px' }}
+                onClick={() => this.handleUpVote(blogId, 'up')}
+              ></i>
+              <i className='fas fa-thumbs-down' 
+              style={{ color: 'red', marginLeft: '10px' }}
+              onClick={() => this.handleUpVote(blogId, 'down')}
+              ></i>
             </div>
 
             <h1 className='display-6'>{currentPost.title}</h1>

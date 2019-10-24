@@ -10,7 +10,8 @@ import {
   deletePostFromApi, 
   getCommentsFromApi, 
   addCommentToApi, 
-  deleteCommentFromApi
+  deleteCommentFromApi, 
+  sendVoteToAPI
 } from "../actions";
 
 function mapStateToProps(state, ownProps) {
@@ -22,7 +23,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   editPost, removePost, addComment, removeComment, getOnePostFromApi, updatePostFromApi, deletePostFromApi,  getCommentsFromApi, 
   addCommentToApi, 
-  deleteCommentFromApi
+  deleteCommentFromApi, sendVoteToAPI
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

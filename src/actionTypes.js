@@ -7,3 +7,4 @@ export const LOADPOSTS = "LOADPOSTS";
 export const LOADONEPOST = "LOADONEPOST";
 export const ERROR = "ERROR";
 export const LOADCOMMENTS = "LOADCOMMENTS";
+export const VOTE = "VOTE";
