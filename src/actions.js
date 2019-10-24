@@ -7,7 +7,8 @@ import {
   REMOVECOMMENT,
   LOADPOSTS,
   LOADONEPOST, 
-  LOADCOMMENTS
+  LOADCOMMENTS,
+  VOTE
 } from "./actionTypes";
 
 const BASE_URL = "http://localhost:5000";
@@ -168,4 +169,27 @@ export function deleteCommentFromApi(commentId, postId) {
       console.log("in error")
     }
   }
+}
+
+export function vote(postId, votes) {
+  return {
+    type: VOTE,
+    payload: {
+      postId, 
+      votes
+    }
+  };
+}
+
+
+export function sendVoteToAPI(postId, direction) {
+  return async function thunk(dispatch) {
+    try {
+      const response = await axios.post(`${BASE_URL}/api/posts/${postId}/vote/${direction}`);
+      dispatch(vote(postId, response.data.votes));
+    } catch (error) {
+      dispatch(handleError(error));
+      console.log("in error")
+    }
+  };
 }
