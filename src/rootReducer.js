@@ -7,7 +7,8 @@ import {
   LOADPOSTS,
   LOADONEPOST,
   ERROR, 
-  LOADCOMMENTS
+  LOADCOMMENTS, 
+  VOTE
 } from "./actionTypes";
 
 const INITIAL_STATE = {
@@ -149,6 +150,26 @@ function rootReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         posts: postsArr
+      };
+    
+      // this code currently only works for updating the votes on 
+      // the homepage
+      // i think it has to do with the way we're structuring allPosts
+      // it seems like the data type (array/object) of state is different
+      // for one post vs for when we're loading all posts
+      // i'm not really sure so i'll revisit this later
+    case VOTE: 
+      let allPosts = [ ...state.posts];
+
+      if (!allPosts) { return state; }
+      console.log('this is the post', allPosts)
+      let clickedPost = state.posts.filter(
+        post => post.id === action.payload.postId)
+      clickedPost[0].votes = action.payload.votes;
+
+      return {
+        ...state,
+        posts: allPosts
       };
 
     default:
