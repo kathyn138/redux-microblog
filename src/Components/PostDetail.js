@@ -13,6 +13,7 @@ class PostDetail extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleUpVote = this.handleUpVote.bind(this);
+    this.handleDownVote = this.handleDownVote.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +35,10 @@ class PostDetail extends React.Component {
     this.props.sendVoteToAPI(id, up);
   }
 
+  handleDownVote(id, down) {
+    this.props.sendVoteToAPI(id, down);
+  }
+
   renderLoading() {
     return <p>Loading...</p>;
   }
@@ -52,7 +57,7 @@ class PostDetail extends React.Component {
             <div className='d-flex justify-content-end'>
               <i
                 style={{ marginRight: "6px", color: "blue" }}
-                className='flex-end fas fa-edit' onClick={this.handleEdit}></i>
+                className='flex-end fas fa-edit' xonClick={this.handleEdit}></i>
               <i style={{ color: "red" }} className='fas fa-times' onClick={() => this.handleRemove(blogId)}></i>
             </div>
 
@@ -64,7 +69,7 @@ class PostDetail extends React.Component {
               ></i>
               <i className='fas fa-thumbs-down' 
               style={{ color: 'red', marginLeft: '10px' }}
-              onClick={() => this.handleUpVote(blogId, 'down')}
+              onClick={() => this.handleDownVote(blogId, 'down')}
               ></i>
             </div>
 
@@ -74,7 +79,7 @@ class PostDetail extends React.Component {
             <hr className='my-4' />
             <h1 className='display-6'>Comments</h1>
             <CommentList currentPost={currentPost} deleteCommentFromApi={this.props.deleteCommentFromApi} />
-            <CommentForm addComment={this.props.addCommentToApi} postId={blogId} />
+            <CommentForm addComment={this.props.addCommentToApi} postId={currentPost} />
           </div>
         </div>
         <div style={{ visibility }} className="form-div">

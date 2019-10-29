@@ -7,6 +7,7 @@ class HomePageList extends React.Component {
     this.state = {};
 
     this.handleUpVote = this.handleUpVote.bind(this);
+    this.handleDownVote = this.handleDownVote.bind(this);
   }
 
   componentDidMount() {
@@ -15,6 +16,10 @@ class HomePageList extends React.Component {
 
   handleUpVote(id, up) {
     this.props.sendVoteToAPI(id, up);
+  }
+
+  handleDownVote(id, down) {
+    this.props.sendVoteToAPI(id, down);
   }
 
   render() {
@@ -35,7 +40,8 @@ class HomePageList extends React.Component {
             style={{color: 'green', marginLeft: '10px'}}
             onClick={() => this.handleUpVote(posts[postId].id, 'up')}
             ></i>
-            <i className='fas fa-thumbs-down' style={{color: 'red', marginLeft: '10px'}}></i>
+            <i className='fas fa-thumbs-down' style={{color: 'red', marginLeft: '10px'}}
+            onClick={() => this.handleUpVote(posts[postId].id, 'down')}></i>
           </div>
         </div>
       );

@@ -6,10 +6,11 @@ import {
   REMOVECOMMENT,
   LOADPOSTS,
   LOADONEPOST,
-  ERROR, 
-  LOADCOMMENTS, 
+  ERROR,
+  LOADCOMMENTS,
   VOTE
 } from "./actionTypes";
+import { all } from "q";
 
 const INITIAL_STATE = {
   posts: {}
@@ -35,20 +36,20 @@ const INITIAL_STATE = {
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
 
-    case ERROR: 
+    case ERROR:
       console.log("THIS IS THE ERROR", action)
       console.log(state)
-      return {...state}
+      return { ...state }
 
     case ADDPOST:
       console.log("action", action.payload)
       let postCopy = { ...state.posts };
-      postCopy[action.payload.id] = action.payload;
-      postCopy[action.payload.id]["comments"] = {};
-      return { 
+      postCopy[action.payload.id] = { ...action.payload, comments: {} };
+      console.log('postcopy', postCopy)
+      return {
         ...state,
         posts: postCopy,
-        titles: { 
+        titles: {
           title: action.payload.title,
           id: action.payload.id,
           description: action.payload.description
@@ -59,16 +60,16 @@ function rootReducer(state = INITIAL_STATE, action) {
 
     case EDITPOST:
       let postToEdit = { ...state.posts };
-      
+
 
       // ...postToEdit[action.payload.id] is needed
       // it prevents us from overwriting comments
-      
+
       postToEdit[action.payload.id] = {
         ...postToEdit[action.payload.id],
         ...action.payload.newPost
       };
-      return { 
+      return {
         ...state,
         posts: postToEdit
       };
@@ -78,7 +79,7 @@ function rootReducer(state = INITIAL_STATE, action) {
       if (!postToRemove[action.payload]) return postToRemove;
 
       delete (postToRemove[action.payload])
-      return { 
+      return {
         ...state,
         posts: postToRemove
       };
@@ -88,10 +89,10 @@ function rootReducer(state = INITIAL_STATE, action) {
       if (!state.post || +postId !== state.post.id) return state;
 
       let post = { ...state.post };
-      
+
       post.comments = [
         ...post.comments,
-        { ...action.payload.comment}
+        { ...action.payload.comment }
       ];
       return {
         ...state,
@@ -107,7 +108,7 @@ function rootReducer(state = INITIAL_STATE, action) {
       // let currentPost = {...state.post };
 
       // let commentsToKeep = currentPost.comments.filter((c) => +c.id !== +action.payload.commentId)
-      
+
       // currentPost.comments = [
       //   ...currentPost.comments, 
       //   commentsToKeep
@@ -122,23 +123,23 @@ function rootReducer(state = INITIAL_STATE, action) {
         }
       }
 
-      // if(![posts][action.payload.postId]["comments"][action.payload.commentId]){
-      //   return state;
-      // } else {
-      //   delete ([posts][action.payload.postId]["comments"][
-      //     action.payload.commentId]);
-      // }
-      // return {
-      //   ...state,
-      //   currentPost
-      // };
+    // if(![posts][action.payload.postId]["comments"][action.payload.commentId]){
+    //   return state;
+    // } else {
+    //   delete ([posts][action.payload.postId]["comments"][
+    //     action.payload.commentId]);
+    // }
+    // return {
+    //   ...state,
+    //   currentPost
+    // };
 
 
-    case LOADPOSTS: 
-      return { ...state, posts: action.posts}
+    case LOADPOSTS:
+      return { ...state, posts: { ...action.posts } }
 
     case LOADONEPOST:
-      return { ...state, post: {...action.post}}
+      return { ...state, post: action.post }
 
     case LOADCOMMENTS:
       let postsArr = { ...state.posts };
@@ -151,26 +152,44 @@ function rootReducer(state = INITIAL_STATE, action) {
         ...state,
         posts: postsArr
       };
+
     
-      // this code currently only works for updating the votes on 
-      // the homepage
-      // i think it has to do with the way we're structuring allPosts
-      // it seems like the data type (array/object) of state is different
-      // for one post vs for when we're loading all posts
-      // i'm not really sure so i'll revisit this later
-    case VOTE: 
-      let allPosts = [ ...state.posts];
+    case VOTE:
+      // what allPosts originally was
+      // let allPosts = { ...state.posts };
+
+      //allPosts is undefined when you're on a single post
+      // state.post for single post 
+      
+      let allPosts;
+
+      if (Object.entries(state.posts).length === 0) {
+        allPosts = { ...state.post };
+      } else {
+        allPosts = { ...state.posts };
+      }
 
       if (!allPosts) { return state; }
-      console.log('this is the post', allPosts)
-      let clickedPost = state.posts.filter(
-        post => post.id === action.payload.postId)
-      clickedPost[0].votes = action.payload.votes;
 
-      return {
-        ...state,
-        posts: allPosts
-      };
+      if (Object.entries(allPosts).length > 6) {
+        for (let post in allPosts) {
+          if (allPosts[post].id === action.payload.postId) {
+            allPosts[post].votes = action.payload.votes;
+          }
+        }
+        return {
+          ...state,
+          posts: allPosts
+        };
+  
+      } else {
+        allPosts.votes = action.payload.votes
+        console.log('else', allPosts)
+        return { 
+          ...state,
+          post: allPosts
+        };
+      }
 
     default:
       return state;
